@@ -1,3 +1,4 @@
 Rails.application.routes.draw do
-	root "home#index" # citiation >"set to 'something' " from devise
+  devise_for :users
+	#root "home#index" # citiation >"set to 'something' " from devise
 end
