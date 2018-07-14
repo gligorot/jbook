@@ -13,6 +13,8 @@ class User < ApplicationRecord
   has_many :requested_friends, through: :sent_requests, 		source: :requested
   has_many :accepted_friends,  through: :received_requests, source: :requestor
 
+  has_many :posts
+
   def friends_with(other_user)
   	sent_and_got_accepted_by(other_user) || received_and_accepted_from(other_user)
   end
