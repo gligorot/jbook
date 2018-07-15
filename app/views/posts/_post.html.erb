@@ -1,0 +1,19 @@
+<strong><%= post.user.email %> </strong>
+<p> switch to profile name later </p>
+<%= post.body %>
+
+<hr>
+<p> Post has <%= pluralize(post.likes.count, "like")%> </p>
+
+<% unless post.liked_by(current_user) %>
+	<%= link_to "Like", post_likes_path(post) , method: "post" %>
+<% else %>
+	<%= link_to "Unlike", post_like_path(post, post.get_like(current_user).id), method: "delete" %>
+<% end %>
+
+<hr>
+
+<%= link_to "Comment", new_post_comment_path(post) %>
+
+<p><strong> Post comments:</strong> (later add likes) </p>
+<%= render post.comments %>

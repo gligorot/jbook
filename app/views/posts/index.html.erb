@@ -1,0 +1,13 @@
+<h1> Feed </h1>
+
+<%= form_for @post do |f| %>
+	<h4> Share your thoughts: </h4>
+
+	<%= f.text_area :body %>
+	<br>
+	<%= f.submit "Post!" %>
+<% end %>
+
+<hr>
+
+<%= render @posts %>

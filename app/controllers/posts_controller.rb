@@ -3,17 +3,18 @@ class PostsController < ApplicationController
 	before_action :correct_user, only: :destroy
 
 	def index
-		@post = current_user.posts.build #post on top of feed
+		@post  = current_user.posts.build #post on top of feed
 		#@posts = current_user.feed
+		@posts = Post.all
 	end
 
 	def create
 		@post = current_user.posts.build(post_params)
 		if @post.save
-			flash.now[:success] = "Post sucessful!"
-			render root_url
+			flash[:success] = "Post sucessful!"
+			redirect_to root_url
 		else
-			render root_url
+			redirect_to root_url
 		end
 	end
 
