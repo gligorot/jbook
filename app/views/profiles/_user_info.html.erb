@@ -5,7 +5,7 @@
 	<p> Lives in: <%= @profile.address.city %>, <%= @profile.address.country %> </p>
 	<p> Born on: <%= @profile.birth_date %> </p>
  
-	<% if !@profile.mini_bio.nil? && @profile.mini_bio.empty? %>
+	<% if !@profile.mini_bio.nil? %>
 		<p> Short biography: </p>
  			<%= @profile.mini_bio %>
 	<% end %>
