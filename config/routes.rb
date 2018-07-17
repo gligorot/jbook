@@ -3,8 +3,11 @@ Rails.application.routes.draw do
 
   get '/notifications', to: 'profiles#notifications'
 
-  get '/accept/:id',		to: 'friendship#accept', 	as: 'friend_accept'
-  get '/decline/:id',		to: 'friendship#decline',	as: 'friend_decline'
+  get '/accept/:id',					to: 'friendship#accept', 	as: 'friend_accept'
+  get '/decline/:id',					to: 'friendship#decline',	as: 'friend_decline'
+ 	#post '/friend_request/:id', to: 'friendship#request', as: 'friend_request'
+
+ 	resources :friendship, only: [:create]
 
   resources :posts do
 	  resources :comments

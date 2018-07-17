@@ -1,10 +1,14 @@
 <h1>Notifications</h1>
 
 <% unless @friend_requests.empty? %>
-	<h3> Friend Requests </h3>
+	<h2> Friend Requests </h2>
 	<br><hr>
 	<% @friend_requests.each do |fr| %>
-		<p> FROM <%=fr.requestor.email %>  <%= link_to "Accept", friend_accept_path(fr) %> <%= link_to "Decline", friend_decline_path(fr) %> </p>
+		<% user = fr.requestor %>
+		<h3>
+		<%= gravatar_for(user) %>
+		<%= link_to "#{user.profile.name} #{user.profile.surname}", profile_path(user.profile) %> 
+		<%= link_to "Accept", friend_accept_path(fr) %> <%= link_to "Decline", friend_decline_path(fr) %> </h3>
 	<% end %>
 <% else %>
 	<h3> No notifications </h3>

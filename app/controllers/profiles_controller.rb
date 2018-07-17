@@ -1,5 +1,11 @@
 class ProfilesController < ApplicationController
 
+	def index
+		profile_ids = Profile.pluck(:user_id)
+		profile_ids.reject!{|e| e==current_user.id}
+		@users = User.where("id = ANY(ARRAY#{profile_ids}::integer[])")
+	end
+
 	def new
 		@profile = current_user.profile
 		@profile.build_address
