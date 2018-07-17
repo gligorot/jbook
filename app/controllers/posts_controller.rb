@@ -5,7 +5,7 @@ class PostsController < ApplicationController
 	def index
 		@post  = current_user.posts.build #post on top of feed
 		#@posts = current_user.feed
-		@posts = Post.all
+		@posts = current_user.feed
 	end
 
 	def create

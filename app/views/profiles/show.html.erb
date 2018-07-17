@@ -1,0 +1,9 @@
+<% if current_user.id == @profile.user.id %>
+	<%= render 'own_profile' %>
+<% else %>
+	<%= render 'another_profile' %>	
+<% end %>
+<hr>
+<%= render 'user_info' %>
+
+<%= render 'user_posts' %>

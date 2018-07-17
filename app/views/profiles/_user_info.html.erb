@@ -1,0 +1,12 @@
+
+<%= gravatar_for(@profile.user, size: 120) %>
+
+<h4> About </h4>
+	<p> Lives in: <%= @profile.address.city %>, <%= @profile.address.country %> </p>
+	<p> Born on: <%= @profile.birth_date %> </p>
+ 
+	<% if !@profile.mini_bio.nil? && @profile.mini_bio.empty? %>
+		<p> Short biography: </p>
+ 			<%= @profile.mini_bio %>
+	<% end %>
+<hr>

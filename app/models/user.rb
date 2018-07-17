@@ -13,9 +13,12 @@ class User < ApplicationRecord
   has_many :requested_friends, through: :sent_requests, 		source: :requested
   has_many :accepted_friends,  through: :received_requests, source: :requestor
 
-  has_many :posts
-  has_many :comments
-  has_many :likes
+  has_many :posts,    dependent: :destroy
+  has_many :comments, dependent: :destroy
+  has_many :likes,    dependent: :destroy
+  has_one :profile,   dependent: :destroy
+
+  has_one :address,  through: :profile
 
   def friends_with(other_user)
   	sent_and_got_accepted_by(other_user) || received_and_accepted_from(other_user)
@@ -37,4 +40,14 @@ class User < ApplicationRecord
   	self.received_requests.accepted.where(requestor_id: other_user.id).exists?
   end
 
+  def feed
+    #current user can be swapped for self
+    requested_friend_ids = Friendship.accepted.where(requestor_id: self.id).pluck(:requested_id)
+    received_friend_ids  = Friendship.accepted.where(requested_id: self.id).pluck(:requestor_id)
+    
+    friend_ids = requested_friend_ids + received_friend_ids
+
+    #WHERE   some_id = ANY(ARRAY[1, 2])
+    Post.where("user_id = ANY(ARRAY#{friend_ids}::integer[]) OR user_id = :user_id", user_id: self.id).order(created_at: :desc)
+  end
 end

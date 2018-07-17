@@ -1,0 +1,24 @@
+<h1> Profile Info for <%= current_user.email %> </h1>
+
+<p> Profile is built for <%= @profile.user %>. His email is <%= @profile.user.email %> </p>
+
+<%= form_for @profile do |f| %>
+	<%= f.text_field :name, placeholder: "Name" %>
+
+	<%= f.text_field :surname, placeholder: "Surname" %>
+	<br>
+	<br>	
+	<%= f.date_select :birth_date, order: [:day, :month, :year], start_year: Date.today.year - 13, end_year: Date.today.year - 90 %>
+	<br>
+	<br>	
+	<%= f.fields_for :address do |a| %>
+		<%= a.text_field :city, placeholder: "City" %>
+		<%= a.country_select :country, priority_countries: ["MK"], priority_countries_divider: "~~~~~~" %>
+	<% end %>
+	<br>
+	<br>
+	<%= f.text_area :mini_bio, placeholder: "Tell something about yourself" %>
+	<br>
+	<br>
+	<%= f.submit "Done" %>
+<% end %>
