@@ -20,3 +20,6 @@
 
 # Ignore Spring files.
 /spring/*.pid2
+
+# Ignore application configuration
+/config/application.yml

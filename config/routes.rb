@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { registrations: "registrations" }
-
+  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
+=begin
+	devise_scope :user do
+	  delete 'sign_out', :to => 'devise/sessions#destroy', :as => :destroy_user_session
+	end
+=end
   get '/notifications', to: 'profiles#notifications'
 
   get '/accept/:id',					to: 'friendship#accept', 	as: 'friend_accept'

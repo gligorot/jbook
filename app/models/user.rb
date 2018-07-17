@@ -1,8 +1,10 @@
 class User < ApplicationRecord
+  after_create :send_welcome_mail
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable,
+         :omniauthable, omniauth_providers: %i[facebook]
 
   has_many :sent_requests, class_name: "Friendship",
   												 foreign_key: "requestor_id",
@@ -62,4 +64,24 @@ class User < ApplicationRecord
     #WHERE   some_id = ANY(ARRAY[1, 2])
     Post.where("user_id = ANY(ARRAY#{friend_ids}::integer[]) OR user_id = :user_id", user_id: self.id).order(created_at: :desc)
   end
+
+  #facebook omniauth specific method, used in reg_controller
+  def self.from_omniauth(auth)
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.email = auth.info.email
+      user.password = Devise.friendly_token[0,20]
+      #user.name = auth.info.name   # assuming the user model has a name
+      #i may use this image later
+      #user.image = auth.info.image # assuming the user model has an image
+      # If you are using confirmable and the provider(s) you use validate emails, 
+      # uncomment the line below to skip the confirmation emails.
+      # user.skip_confirmation!
+    end
+  end
+
+  def send_welcome_mail
+    UserMailer.welcome_mail(self).deliver_now
+  end
+
+  
 end
